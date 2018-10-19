@@ -8,7 +8,7 @@ import {
   Trace,
 } from 'apollo-engine-reporting-protobuf';
 
-import { fetch, Response } from 'apollo-server-env';
+import { fetch, HttpProxyAgent, Response } from 'apollo-server-env';
 import retry from 'async-retry';
 
 import { EngineReportingExtension } from './extension';
@@ -88,7 +88,8 @@ export interface EngineReportingOptions {
   sendReportsImmediately?: boolean;
   // To remove the error message from traces, set this to true. Defaults to false
   maskErrorDetails?: boolean;
-
+  // URL to proxy reporting requests through
+  proxyUrl?: string;
   /**
    * (Experimental) Creates the client information for operation traces.
    *
@@ -256,6 +257,7 @@ export class EngineReportingAgent<TContext = any> {
             'content-encoding': 'gzip',
           },
           body: compressed,
+          agent: this.options.proxyUrl ? new HttpProxyAgent(this.options.proxyUrl) : undefined
         });
 
         if (curResponse.status >= 500 && curResponse.status < 600) {

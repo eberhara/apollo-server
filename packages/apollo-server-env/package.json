@@ -23,6 +23,7 @@
     "node": ">=6"
   },
   "dependencies": {
+    "http-proxy-agent": "^2.1.0",
     "node-fetch": "^2.1.2",
     "util.promisify": "^1.0.0"
   }

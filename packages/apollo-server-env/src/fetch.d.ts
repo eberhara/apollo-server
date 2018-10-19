@@ -1,4 +1,5 @@
 import { Agent } from 'http';
+import { Url } from 'url';
 
 export declare function fetch(
   input?: RequestInfo,
@@ -116,3 +117,10 @@ export interface ResponseInit {
 }
 
 export type BodyInit = ArrayBuffer | ArrayBufferView | string;
+
+export declare class HttpProxyAgent extends Agent {
+  constructor(options: string | Url);
+
+  proxy: Url;
+  secureProxy: boolean;
+}
